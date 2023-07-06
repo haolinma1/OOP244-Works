@@ -82,7 +82,7 @@ namespace sdds {
 		// check if the file has been connected
 		if (!fin.is_open())
 		{
-			cout << "the file has not been connected";
+			//cout << "the file has not been connected";
 		}
 		else
 		{
@@ -131,7 +131,7 @@ namespace sdds {
 	// Saves the content of the TextFile under a new name.
 	void TextFile::saveAs(const char* fileName)const {
 		ofstream fout(fileName);
-		int i = 0;
+		unsigned i = 0;
 		if (fout.is_open())
 		{
 			for (i = 0; i < m_noOfLines; i++)
@@ -155,7 +155,8 @@ namespace sdds {
 	// all the other attributes to nullptr and zero
 	// if the filename is not null, load the file
 	TextFile::TextFile(const char* filename, unsigned pageSize) {
-		TextFile(pageSize);
+		m_pageSize = pageSize;
+		setEmpty();
 		if (filename != nullptr)
 		{
 			setFilename(filename);
@@ -208,8 +209,9 @@ namespace sdds {
 		if (*this)
 		{
 			int i = 0;
+			int sizeOfName = strLen(m_filename);
 			ostr << m_filename << endl;
-			for (i = 0; i < strLen(m_filename); i++)
+			for (i = 0; i < sizeOfName; i++)
 			{
 				ostr << '=';
 			}
@@ -221,7 +223,8 @@ namespace sdds {
 				i++;
 				if (i % m_pageSize == 0)
 				{
-					ostr << "Hit ENTER to continue...";
+					
+					cout << "Hit ENTER to continue...";
 					cin.ignore();
 					cin.get();
 				}
@@ -243,17 +246,20 @@ namespace sdds {
 
 	// Returns the element in the m_textLine array corresponding to the index argument.
 	const char* TextFile::operator[](unsigned index)const {
+		unsigned realIndex = 0;
 		if (!*this)
 		{
 			return NULL;
 		}
-		if (index > m_noOfLines)
+		if (index >= m_noOfLines)
 		{
-
+			realIndex = index % m_noOfLines;
+			return m_textLines[realIndex];
 		}
+		return m_textLines[index];
 	}
 
-
+	// Returns true if the TextFile is not in an empty state and returns false if it is.
 	TextFile::operator bool()const {
 		if (m_filename != nullptr && m_textLines != nullptr)
 		{
@@ -261,6 +267,23 @@ namespace sdds {
 		}
 		return false;
 	}
+
+	// Returns the filename.
+	const char* TextFile::name()const {
+		return m_filename;
+	}
+
+	// uses the view() method to print the TextFile
+	ostream& operator<<(ostream& ostr, const TextFile& text) {
+		return text.view(ostr);
+	}
+
+	// uses the getFile() method to get the file name from console
+	// load the content from the file
+	istream& operator>>(istream& istr, TextFile& text) {
+		return text.getFile(istr);
+	}
+
 
 
 
