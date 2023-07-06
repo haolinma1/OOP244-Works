@@ -116,6 +116,7 @@ namespace sdds {
 		{
 			int i = 0;
 			delete[] m_textLines;
+			m_textLines = nullptr;
 			m_textLines = new Line[m_noOfLines];
 			ifstream fin(m_filename);
 			string line;
@@ -124,7 +125,7 @@ namespace sdds {
 				m_textLines[i] = line.c_str();
 				i++;
 			}
-			m_noOfLines = i + 1;
+			m_noOfLines = i;
 		}
 	}
 
@@ -168,7 +169,9 @@ namespace sdds {
 	// copy constructor
 	TextFile::TextFile(const TextFile& textFile) {
 		m_pageSize = textFile.m_pageSize;
-		setEmpty();
+		m_textLines = nullptr;
+		m_filename = nullptr;
+		m_noOfLines = 0;
 		if (textFile)
 		{
 			setFilename(textFile.m_filename, true);
@@ -225,7 +228,11 @@ namespace sdds {
 				{
 					
 					cout << "Hit ENTER to continue...";
-					cin.ignore();
+					if (cin.rdbuf()->in_avail() > 0)
+					{
+						cin.ignore();
+					}
+					
 					cin.get();
 				}
 			}
