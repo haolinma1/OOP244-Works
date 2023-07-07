@@ -5,9 +5,10 @@
 // Author	Fardad Soleimanloo
 // Revision History
 // -----------------------------------------------------------
-// Name               Date                 Reason
+// Name:               Date:                Reason
 // 
 /////////////////////////////////////////////////////////////////
+
 #ifndef SDDS_DATE_H__
 #define SDDS_DATE_H__
 #include <iostream>
@@ -48,10 +49,20 @@ namespace sdds {
       int errCode()const;         // returns the error code or zero if date is valid
       const char* dateStatus()const;  // returns a string corresponding the current status of the date
       int currentYear()const;         // returns the m_CUR_YEAR value;
-
-      
+      std::istream& read(std::istream& is = std::cin); // This function reads a date from the console in the following format YYYY/MM/DD
+      std::ostream& write(std::ostream& os = std::cout)const; // write the date in the specific format in specific condition
+      int getTotalday() const; // get the day from 0001/1/1 to the date.
+      operator bool() const; // return true if the date is valid
    };
    std::ostream& operator<<(std::ostream& os, const Date& RO);
    std::istream& operator>>(std::istream& is, Date& RO);
+   int operator-(Date date1, Date date2);
+   // compare two date by overloading the operator
+   bool operator==(Date date1, Date date2);
+   bool operator!=(Date date1, Date date2);
+   bool operator>=(Date date1, Date date2);
+   bool operator<=(Date date1, Date date2);
+   bool operator<(Date date1, Date date2);
+   bool operator>(Date date1, Date date2);
 }
 #endif
