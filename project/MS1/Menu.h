@@ -11,3 +11,33 @@ I declare this submission is the result of my own work and has not been
 shared with any other student or 3rd party content provider. This submitted
 piece of work is entirely of my own creation.
 /////////////////////////////////////////////////////////////////////////*/
+
+#include <iostream>
+#define MAX_MENU_ITEMS 20
+namespace sdds {
+	class MenuItem {
+		char* item;
+		MenuItem();// set to empty state
+		MenuItem(const char* content);
+		MenuItem(const MenuItem&) = delete; // not allow to copy through constructor or assignment
+		MenuItem& operator=(const MenuItem&) = delete;
+		~MenuItem(); // deallocate the memory
+		operator bool()const; // true if it is not empty, false otherwise
+		operator const char* ()const; // return the address of content Cstring
+		std::ostream& display(std::ostream& os = std::cout); // display the menuitem
+		friend class Menu;
+	};
+
+	class Menu {
+		MenuItem m_title;
+		MenuItem* menuItem[MAX_MENU_ITEMS]{nullptr};
+		int numOfItem;
+	public:
+		Menu(const Menu&) = delete; // not allow to copy through constructor or assignment
+		Menu& operator=(const Menu&) = delete;
+		Menu(); // empty state
+		Menu(const char* title); // create the menu with title
+		~Menu();
+
+	};
+}
