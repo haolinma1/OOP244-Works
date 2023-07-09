@@ -37,7 +37,14 @@ namespace sdds {
 		Menu& operator=(const Menu&) = delete;
 		Menu(); // empty state
 		Menu(const char* title); // create the menu with title
-		~Menu();
-
+		~Menu(); // deallocate the memory 
+		std::ostream& displayTitle(std::ostream& os = std::cout)const;
+		std::ostream& displayWholeMenu(std::ostream& os = std::cout)const;
+		unsigned run()const; // display the menu and ask for the selection
+		unsigned operator~()const; // display the menu and ask for the selection
+		Menu& operator<<(const char* menuitemConent); // add a menuitem to the menu
+		operator int()const; // return the number of items in the menu
+		operator bool()const; // return true if the menu has at least one item, false otherwise
+		std::ostream& operator<<(const Menu& menu)const; // output the title of the menu
 	};
 }

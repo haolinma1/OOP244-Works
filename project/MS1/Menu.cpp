@@ -11,15 +11,18 @@ I declare this submission is the result of my own work and has not been
 shared with any other student or 3rd party content provider. This submitted
 piece of work is entirely of my own creation.
 /////////////////////////////////////////////////////////////////////////*/
+#include <iostream>
 #include <cstring>
 #include "Menu.h"
+
+using namespace std;
 namespace sdds {
 	MenuItem::MenuItem() {
 		item = nullptr;
 	}
 
 	MenuItem::MenuItem(const char* content) {
-		MenuItem();
+		item = nullptr;
 		item = new char[strlen(content) + 1];
 		strcpy(item, content);
 	}
@@ -71,4 +74,79 @@ namespace sdds {
 			menuItem[i] = nullptr;
 		}
 	}
+
+	std::ostream& Menu::displayTitle(std::ostream& os)const {
+		// title is not empty
+		if (this->m_title)
+		{
+			os << this->m_title;
+		}
+		return os;
+	}
+
+	std::ostream& Menu::displayWholeMenu(std::ostream& os)const {
+		displayTitle(os);
+		os << ":" << endl;
+		for (int i = 0; i < numOfItem; i++)
+		{
+			os << i + 1 << "- "; 
+			menuItem[i]->display(os);
+			cout << endl;
+		}
+		os << "0- Exit" << endl;
+		os << "> ";
+		return os;
+	}
+
+	unsigned Menu::run()const {
+		unsigned selection = 0;
+		displayWholeMenu();
+		cin >> selection;
+		while (cin.fail()||selection> numOfItem)
+		{	// clear the buffer
+			cin.clear();
+			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cout << "Invalid Selection, try again: ";
+			cin >> selection;
+		}
+		return selection;
+	}
+
+	unsigned Menu::operator~()const {
+		return this->run();
+	}
+
+	Menu& Menu::operator<<(const char* menuitemConent) {
+		// check if the next spot is available
+		if (numOfItem< MAX_MENU_ITEMS)
+		{
+			menuItem[numOfItem]->item = new char[strlen(menuitemConent) + 1];
+			strcpy(menuItem[numOfItem]->item, menuitemConent);
+			numOfItem++;
+		}
+		else
+		{
+			// do nothing
+		}
+		return *this;
+	}
+
+	Menu::operator int()const {
+		return this->numOfItem;
+	}
+
+	Menu::operator bool()const {
+		if (numOfItem>0)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	std::ostream& Menu::operator<<(const Menu& menu)const {
+		return menu.displayTitle();
+	}
+
+
+
 }
