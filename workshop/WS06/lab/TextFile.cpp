@@ -211,8 +211,8 @@ namespace sdds {
 	std::ostream& TextFile::view(std::ostream& ostr)const {
 		if (*this)
 		{
-			int i = 0;
-			int sizeOfName = strLen(m_filename);
+			unsigned i = 0;
+			unsigned sizeOfName = strLen(m_filename);
 			ostr << m_filename << endl;
 			for (i = 0; i < sizeOfName; i++)
 			{
@@ -225,14 +225,8 @@ namespace sdds {
 				ostr << m_textLines[i] << endl;
 				i++;
 				if (i % m_pageSize == 0)
-				{
-					
-					cout << "Hit ENTER to continue...";
-					if (cin.rdbuf()->in_avail() > 0)
-					{
-						cin.ignore();
-					}
-					
+				{				
+					cout << "Hit ENTER to continue...";									
 					cin.get();
 				}
 			}
@@ -248,6 +242,7 @@ namespace sdds {
 		setFilename(fileName.c_str());
 		setNoOfLines();
 		loadText();
+		istr.ignore();
 		return istr;
 	}
 

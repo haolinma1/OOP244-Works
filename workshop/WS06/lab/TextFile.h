@@ -28,10 +28,10 @@ namespace sdds {
     };
 
     class TextFile {
-        Line* m_textLines;
-        char* m_filename;
-        unsigned m_noOfLines;
-        unsigned m_pageSize;
+        Line* m_textLines{ nullptr };
+        char* m_filename{ nullptr };
+        unsigned m_noOfLines{ 0 };
+        unsigned m_pageSize{ 0 };
         void setFilename(const char* fname, bool isCopy = false);
         void setNoOfLines();
         void loadText();
