@@ -77,16 +77,14 @@ namespace sdds {
 	}
 
 	std::ostream& Menu::displayTitle(std::ostream& os)const {
-		// title is not empty
 		if (this->m_title)
 		{
-			os << this->m_title.item<<":" << endl;
+			os << this->m_title.item;
 		}
 		return os;
 	}
 
 	std::ostream& Menu::displayWholeMenu(std::ostream& os)const {
-		displayTitle(os);
 		for (int i = 0; i < numOfItem; i++)
 		{
 			os << i + 1 << "- ";
@@ -100,6 +98,11 @@ namespace sdds {
 
 	unsigned Menu::run()const {
 		unsigned selection = 0;
+		displayTitle();
+		if (this->m_title)
+		{
+			cout << ":" << endl;
+		}
 		displayWholeMenu();
 		cin >> selection;
 		while (cin.fail() || selection > numOfItem)
