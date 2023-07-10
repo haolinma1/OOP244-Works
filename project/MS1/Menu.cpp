@@ -74,6 +74,7 @@ namespace sdds {
 		for (unsigned i = 0; i < numOfItem; i++)
 		{
 			menuItem[i]->~MenuItem();
+			delete this->menuItem[i];
 			menuItem[i] = nullptr;
 		}
 	}
