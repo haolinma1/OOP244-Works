@@ -36,4 +36,39 @@ namespace sdds {
 		return i;
 	}
 
+	int strCmp(const char* s1, const char* s2) {
+		int s1Length = 0;
+		int s2Length = 0;
+
+		int i = 0;
+		int flag = 0;
+
+		s1Length = strLen(s1);
+		s2Length = strLen(s2);
+		if (s1Length > s2Length)
+		{
+			return 1;
+		}
+		else if (s1Length < s2Length)
+		{
+			return -1;
+
+		}
+		else
+		{
+			for (i = 0; i < s1Length && flag == 0; i++)
+			{
+				if (s1[i] > s2[i])
+				{
+					flag = 1;
+				}
+				else if (s1[i] < s2[i]) {
+					flag = -1;
+				}
+			}
+			return flag;
+
+		}
+	}
+
 }
