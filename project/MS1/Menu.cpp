@@ -11,6 +11,7 @@ I declare this submission is the result of my own work and has not been
 shared with any other student or 3rd party content provider. This submitted
 piece of work is entirely of my own creation.
 /////////////////////////////////////////////////////////////////////////*/
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstring>
 #include "Menu.h"
@@ -58,7 +59,7 @@ namespace sdds {
 
 	// the functions for Menu class
 	Menu::Menu() {
-		numOfItem=0;
+		numOfItem = 0;
 	}
 
 	Menu::Menu(const char* title) {
@@ -79,17 +80,16 @@ namespace sdds {
 		// title is not empty
 		if (this->m_title)
 		{
-			os << this->m_title;
+			os << this->m_title.item<<":" << endl;
 		}
 		return os;
 	}
 
 	std::ostream& Menu::displayWholeMenu(std::ostream& os)const {
 		displayTitle(os);
-		os << ":" << endl;
 		for (int i = 0; i < numOfItem; i++)
 		{
-			os << i + 1 << "- "; 
+			os << i + 1 << "- ";
 			menuItem[i]->display(os);
 			cout << endl;
 		}
@@ -102,10 +102,13 @@ namespace sdds {
 		unsigned selection = 0;
 		displayWholeMenu();
 		cin >> selection;
-		while (cin.fail()||selection> numOfItem)
+		while (cin.fail() || selection > numOfItem)
 		{	// clear the buffer
 			cin.clear();
-			cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			while (cin.get()!='\n')
+			{
+
+			}
 			cout << "Invalid Selection, try again: ";
 			cin >> selection;
 		}
@@ -118,10 +121,9 @@ namespace sdds {
 
 	Menu& Menu::operator<<(const char* menuitemConent) {
 		// check if the next spot is available
-		if (numOfItem< MAX_MENU_ITEMS)
+		if (numOfItem < MAX_MENU_ITEMS)
 		{
-			menuItem[numOfItem]->item = new char[strlen(menuitemConent) + 1];
-			strcpy(menuItem[numOfItem]->item, menuitemConent);
+			this->menuItem[numOfItem] = new MenuItem(menuitemConent);
 			numOfItem++;
 		}
 		else
@@ -131,22 +133,29 @@ namespace sdds {
 		return *this;
 	}
 
-	Menu::operator int()const {
-		return this->numOfItem;
-	}
-
 	Menu::operator bool()const {
-		if (numOfItem>0)
+		if (numOfItem > 0)
 		{
 			return true;
 		}
 		return false;
 	}
 
-	std::ostream& Menu::operator<<(const Menu& menu)const {
-		return menu.displayTitle();
+
+	Menu::operator unsigned int()const {
+		return numOfItem;
 	}
 
+	std::ostream& operator<<(std::ostream& cout,const Menu& menu) {
+		return menu.displayTitle(cout);
+	}
 
+	char* Menu::operator[](int index)const {
+		if (index >= numOfItem)
+		{
+			return this->menuItem[index % numOfItem]->item;
+		}
+		return this->menuItem[index]->item;
+	}
 
 }

@@ -43,8 +43,9 @@ namespace sdds {
 		unsigned run()const; // display the menu and ask for the selection
 		unsigned operator~()const; // display the menu and ask for the selection
 		Menu& operator<<(const char* menuitemConent); // add a menuitem to the menu
-		operator int()const; // return the number of items in the menu
 		operator bool()const; // return true if the menu has at least one item, false otherwise
-		std::ostream& operator<<(const Menu& menu)const; // output the title of the menu
-	};
+		operator unsigned int()const; // return the number of items in the menu		
+		char* operator[](int index)const; // return the string of item with the index
+	}; 
+	std::ostream& operator<<(std::ostream& cout,const Menu& menu); // display the menu title by overloading the << 
 }
