@@ -31,7 +31,7 @@ namespace sdds {
 	class Menu {
 		MenuItem m_title;
 		MenuItem* menuItem[MAX_MENU_ITEMS]{nullptr};
-		int numOfItem;
+		unsigned numOfItem;
 	public:
 		Menu(const Menu&) = delete; // not allow to copy through constructor or assignment
 		Menu& operator=(const Menu&) = delete;
@@ -45,7 +45,7 @@ namespace sdds {
 		Menu& operator<<(const char* menuitemConent); // add a menuitem to the menu
 		operator bool()const; // return true if the menu has at least one item, false otherwise
 		operator unsigned int()const; // return the number of items in the menu		
-		char* operator[](int index)const; // return the string of item with the index
+		char* operator[](unsigned index)const; // return the string of item with the index
 	}; 
 	std::ostream& operator<<(std::ostream& cout,const Menu& menu); // display the menu title by overloading the << 
 }

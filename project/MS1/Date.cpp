@@ -13,8 +13,8 @@
 #include <iostream>
 #include <ctime>
 #include <cstring>
-using namespace std;
 #include "Date.h"
+using namespace std;
 namespace sdds {
 	bool Date::validate() {
 		errCode(NO_ERROR);
@@ -101,12 +101,15 @@ namespace sdds {
 		{
 			m_ErrorCode = CIN_FAILED;
 			is.clear();
-			is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			while (is.get() != '\n')
+			{
+
+			}
 		}
 		else
 		{
 			validate();
-		}	
+		}
 		return is;
 	}
 
@@ -122,7 +125,7 @@ namespace sdds {
 			os.fill('0');
 			os << m_mon << "/";
 			os.width(2);
-			os << m_day << "/";
+			os << m_day;
 			os.fill();
 		}
 		return os;

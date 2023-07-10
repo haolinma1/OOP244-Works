@@ -11,11 +11,11 @@ I declare this submission is the result of my own work and has not been
 shared with any other student or 3rd party content provider. This submitted
 piece of work is entirely of my own creation.
 /////////////////////////////////////////////////////////////////////////*/
-#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <cstring>
 #include "Menu.h"
-
+#include "Utils.h"
 using namespace std;
 namespace sdds {
 	MenuItem::MenuItem() {
@@ -24,8 +24,8 @@ namespace sdds {
 
 	MenuItem::MenuItem(const char* content) {
 		item = nullptr;
-		item = new char[strlen(content) + 1];
-		strcpy(item, content);
+		item = new char[strLen(content) + 1];
+		strCpy(item, content);
 	}
 
 	MenuItem::~MenuItem() {
@@ -63,13 +63,15 @@ namespace sdds {
 	}
 
 	Menu::Menu(const char* title) {
-		m_title.item = new char[strlen(title) + 1];
-		strcpy(m_title.item, title);
+		m_title.item = new char[strLen(title) + 1];
+		strCpy(m_title.item, title);
 		numOfItem = 0;
 	}
 
 	Menu::~Menu() {
-		for (int i = 0; i < numOfItem; i++)
+		delete[] m_title.item;
+		m_title.item = nullptr;
+		for (unsigned i = 0; i < numOfItem; i++)
 		{
 			menuItem[i]->~MenuItem();
 			menuItem[i] = nullptr;
@@ -85,13 +87,13 @@ namespace sdds {
 	}
 
 	std::ostream& Menu::displayWholeMenu(std::ostream& os)const {
-		for (int i = 0; i < numOfItem; i++)
+		for (unsigned i = 0; i < numOfItem; i++)
 		{
-			os << i + 1 << "- ";
+			os <<" "<< i + 1 << "- ";
 			menuItem[i]->display(os);
 			cout << endl;
 		}
-		os << "0- Exit" << endl;
+		os << " 0- Exit" << endl;
 		os << "> ";
 		return os;
 	}
@@ -128,6 +130,7 @@ namespace sdds {
 		{
 			this->menuItem[numOfItem] = new MenuItem(menuitemConent);
 			numOfItem++;
+
 		}
 		else
 		{
@@ -153,7 +156,7 @@ namespace sdds {
 		return menu.displayTitle(cout);
 	}
 
-	char* Menu::operator[](int index)const {
+	char* Menu::operator[](unsigned index)const {
 		if (index >= numOfItem)
 		{
 			return this->menuItem[index % numOfItem]->item;
