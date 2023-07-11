@@ -21,13 +21,10 @@ namespace sdds {
 	public:
 		MotorVehicle(const char* plate, unsigned yearnum); // constructor
 		void moveTo(const char* address); // move to new address if the argument address is different from the orginal
-		std::ostream& write(std::ostream& os); // display year, plate and location in fixed format
+		std::ostream& write(std::ostream& os)const; // display year, plate and location in fixed format
 		std::istream& read(std::istream& in); // read the information inputted by the user
-		unsigned getYear()const; // get the year of the vehicle
-		const char* getPlate()const; // get the plate number
-		const char* getAddress()const;
 	};
 
 	MotorVehicle& operator>>(std::istream& in, MotorVehicle& vehicle); // overload the >> to insert information to MotorVehicle
-	std::ostream& operator<<(std::ostream& os, MotorVehicle& vehicle); // overload << to display the information of the vechile
+	std::ostream& operator<<(std::ostream& os, const MotorVehicle& vehicle); // overload << to display the information of the vechile
 }

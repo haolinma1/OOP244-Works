@@ -23,8 +23,12 @@ namespace sdds {
 		Truck(const char* plate, unsigned yearnum, double capacity, const char* address); // constructor
 		bool addCargo(double cargo); // add the cargo weight by the argument
 		bool unloadCargo(); // unload the cargo weight
-		std::ostream& write(std::ostream& os); // display the information of truck
+		std::ostream& write(std::ostream& os)const; // display the information of truck
 		std::istream& read(std::istream& in); // read the information from user
 	};
+
+	// helper function
+	Truck& operator>>(std::istream& in, Truck& truck);
+	std::ostream& operator<<(std::ostream& os, const Truck& truck);
 	
 }

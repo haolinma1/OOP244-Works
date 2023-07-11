@@ -18,11 +18,12 @@ namespace sdds {
 
 	Truck::Truck(const char* plate, unsigned yearnum, double capacity, const char* address) : MotorVehicle(plate, yearnum) {
 		currentWeight = 0;
+		maxWeight = capacity;
 		this->moveTo(address);
 	}
 
 	bool Truck::addCargo(double cargo) {
-		if (currentWeight+cargo>maxWeight)
+		if (currentWeight + cargo > maxWeight)
 		{
 			return false;
 		}
@@ -34,7 +35,7 @@ namespace sdds {
 	}
 
 	bool Truck::unloadCargo() {
-		if (currentWeight==0)
+		if (currentWeight == 0)
 		{
 			return false;
 		}
@@ -45,16 +46,27 @@ namespace sdds {
 		}
 	}
 
-	ostream& Truck::write(ostream& os) {
-		cout << "| " << this->getYear() << " | " << this->getPlate() << " | " << this->getAddress() << " | " << currentWeight / maxWeight;
+	std::ostream& Truck::write(std::ostream& os)const {
+		MotorVehicle::write(os);
+		os << " | " << currentWeight << "/" << maxWeight;
+		return os;
 	}
 
-	istream& Truck::read(istream& in) {
-		this->read(in);
+	std::istream& Truck::read(std::istream& in) {
+		MotorVehicle::read(in);
 		cout << "Capacity: ";
 		in >> currentWeight;
 		cout << "Cargo: ";
 		in >> maxWeight;
 		return in;
+	}
+
+	Truck& operator>>(std::istream& in, Truck& truck) {
+		truck.read(in);
+		return truck;
+	}
+
+	std::ostream& operator<<(std::ostream& os, const Truck& truck) {
+		return truck.write(os);
 	}
 }

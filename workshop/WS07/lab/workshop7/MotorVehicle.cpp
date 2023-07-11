@@ -43,12 +43,12 @@ namespace sdds {
 		}
 	}
 
-	ostream& MotorVehicle::write(ostream& os) {
+	std::ostream& MotorVehicle::write(std::ostream& os)const {
 		os << "| " << year << " | " << plateNum << " | " << location;
 		return os;
 	}
 
-	istream& MotorVehicle::read(istream& in) {
+	std::istream& MotorVehicle::read(std::istream& in) {
 		cout << "Built year: ";
 		in >> year;
 		cout << "License plate: ";
@@ -58,24 +58,12 @@ namespace sdds {
 		return in;
 	}
 
-	MotorVehicle& operator>>(istream& in, MotorVehicle& vehicle) {
+	MotorVehicle& operator>>(std::istream& in, MotorVehicle& vehicle) {
 		vehicle.read(in);
 		return vehicle;
 	}
 
-	ostream& operator<<(ostream& os, MotorVehicle& vehicle) {
+	std::ostream& operator<<(std::ostream& os, const MotorVehicle& vehicle) {
 		return vehicle.write(os);
-	}
-
-	unsigned MotorVehicle::getYear()const{
-		return year;
-	}
-
-	const char* MotorVehicle::getPlate()const {
-		return plateNum;
-	}
-
-	const char* MotorVehicle::getAddress()const {
-		return location;
 	}
 }
