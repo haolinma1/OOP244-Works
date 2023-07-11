@@ -19,8 +19,11 @@ namespace sdds {
        void newPublication(); // add a new publication and check if the user want it
        void removePublication(); // check if the user want to remove the publication
        void checkOutPub();
+       void exit();
    public:
        LibApp();
+       void run();
+       void mainMenu();
 
    };
 }

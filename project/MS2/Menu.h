@@ -46,6 +46,7 @@ namespace sdds {
 		operator bool()const; // return true if the menu has at least one item, false otherwise
 		operator unsigned int()const; // return the number of items in the menu		
 		char* operator[](unsigned index)const; // return the string of item with the index
+		void setTitle(const char* title);
 	};
 	std::ostream& operator<<(std::ostream& cout, const Menu& menu); // display the menu title by overloading the << 
 }

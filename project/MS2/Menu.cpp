@@ -63,8 +63,7 @@ namespace sdds {
 	}
 
 	Menu::Menu(const char* title) {
-		m_title.item = new char[strLen(title) + 1];
-		strCpy(m_title.item, title);
+		setTitle(title);
 		numOfItem = 0;
 	}
 
@@ -77,6 +76,11 @@ namespace sdds {
 			delete this->menuItem[i];
 			menuItem[i] = nullptr;
 		}
+	}
+
+	void Menu::setTitle(const char* title) {
+		m_title.item = new char[strLen(title) + 1];
+		strCpy(m_title.item, title);
 	}
 
 	std::ostream& Menu::displayTitle(std::ostream& os)const {
