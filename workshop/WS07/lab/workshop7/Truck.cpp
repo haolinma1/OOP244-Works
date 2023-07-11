@@ -23,13 +23,20 @@ namespace sdds {
 	}
 
 	bool Truck::addCargo(double cargo) {
-		if (currentWeight + cargo > maxWeight)
+		if (currentWeight == maxWeight)
 		{
 			return false;
 		}
 		else
 		{
-			currentWeight += cargo;
+			if (currentWeight+cargo>maxWeight)
+			{
+				currentWeight = maxWeight;
+			}
+			else
+			{
+				currentWeight += cargo;
+			}
 			return true;
 		}
 	}
@@ -55,9 +62,9 @@ namespace sdds {
 	std::istream& Truck::read(std::istream& in) {
 		MotorVehicle::read(in);
 		cout << "Capacity: ";
-		in >> currentWeight;
-		cout << "Cargo: ";
 		in >> maxWeight;
+		cout << "Cargo: ";
+		in >> currentWeight;
 		return in;
 	}
 
