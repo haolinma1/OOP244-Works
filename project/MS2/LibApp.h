@@ -1,3 +1,16 @@
+/*/////////////////////////////////////////////////////////////////////////
+                          Milestone2
+Full Name  :Haolin Ma
+Student ID#:129979225
+Email      :mhaolin@myseneca.ca
+Section    :ZAA
+Date       :2023.07.12
+Authenticity Declaration:
+
+I declare this submission is the result of my own work and has not been
+shared with any other student or 3rd party content provider. This submitted
+piece of work is entirely of my own creation.
+/////////////////////////////////////////////////////////////////////////*/
 #ifndef SDDS_LIBAPP_H
 #define SDDS_LIBAPP_H
 #include "Menu.h"
@@ -18,12 +31,13 @@ namespace sdds {
                           */
        void newPublication(); // add a new publication and check if the user want it
        void removePublication(); // check if the user want to remove the publication
-       void checkOutPub();
-       void exit();
+       void checkOutPub(); // calls the confirm method with Check out publication?"
+                           // if confrim returns true, it will set m_changed to true and prints "Publication checked out" + newline
+       void exit(); // display the exit message and ask if the user want to exit
    public:
-       LibApp();
-       void run();
-       void mainMenu();
+       LibApp(); // constructor
+       void run(); // run the app 
+       void mainMenu(); // run the main menu
 
    };
 }

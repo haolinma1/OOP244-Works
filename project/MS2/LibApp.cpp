@@ -1,3 +1,16 @@
+/*/////////////////////////////////////////////////////////////////////////
+                          Milestone2
+Full Name  :Haolin Ma
+Student ID#:129979225
+Email      :mhaolin@myseneca.ca
+Section    :ZAA
+Date       :2023.07.12
+Authenticity Declaration:
+
+I declare this submission is the result of my own work and has not been
+shared with any other student or 3rd party content provider. This submitted
+piece of work is entirely of my own creation.
+/////////////////////////////////////////////////////////////////////////*/
 #include <iostream>
 #include "LibApp.h"
 using namespace std;
@@ -8,10 +21,12 @@ namespace sdds {
         menu << "Yes";
         if (menu.run()==1)
         {
+            
             return true;
         }
         else
         {
+         
             return false;
         }
     }
@@ -65,7 +80,7 @@ namespace sdds {
 
     LibApp::LibApp() {
         m_changed = false;
-        m_mainMenu.setTitle("Seneca Libray Application");
+        m_mainMenu.setTitle("Seneca Library Application");
         m_mainMenu << "Add New Publication";
         m_mainMenu << "Remove Publication";
         m_mainMenu << "Checkout publication from library";
@@ -105,25 +120,31 @@ namespace sdds {
                 returnPub();
                 break;
             }
+            cout << endl;
         }
     }
 
     void LibApp::run() {
         unsigned selection = 0;
         mainMenu();
-        if (m_changed==true)
-        {
+        bool out = false;
+        while (m_changed==true&& out ==false)
+        {   
+
             selection=this->m_exitMenu.run();
             switch (selection)
             {
             case 1:
                 save();
+                out = true;
                 break;
             case 2:
+                cout << endl;
                 mainMenu();
                 break;
             case 0:
                 exit();
+                out = true;
                 break;
             }
         }
