@@ -43,6 +43,7 @@ namespace sdds {
 		 {
 			 label += ch;
 		 }
+		 delete[] m_label;
 		 m_label = new char[label.length() + 1];
 		 strcpy(m_label, label.c_str());
 		 

@@ -15,10 +15,10 @@ piece of work is entirely of my own creation.
 #include "LblShape.h"
 namespace sdds {
 	class Line :public LblShape {
-		int m_length{};
+		unsigned m_length{};
 	public:
 		Line(); // set the m_length to be zero and invoke the base class constructor
-		Line(const char* Cstring, int length); // Passes the Cstring to the constructor of the base class
+		Line(const char* Cstring, unsigned length); // Passes the Cstring to the constructor of the base class
 											   // sets the m_length member variable to the value of the second argument.
 		virtual ~Line(); // do nothing
 		void getSpecs(std::istream& is); // overwrite the base class getSpecs and get the m_length by this function

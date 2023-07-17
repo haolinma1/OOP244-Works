@@ -16,11 +16,11 @@ piece of work is entirely of my own creation.
 
 namespace sdds {
 	class Rectangle :public LblShape {
-		int m_width{};
-		int m_height{};
+		unsigned m_width{};
+		unsigned m_height{};
 	public:
 		Rectangle(); // set m_width and m_height to 0 and invoke base class constructor
-		Rectangle(const char* Cstring, int width, int height); // set label and m_width and m_height based on arguments
+		Rectangle(const char* Cstring, unsigned width, unsigned height); // set label and m_width and m_height based on arguments
 		virtual ~Rectangle(); // no implementation
 		void getSpecs(std::istream& is); // write information to label, m_width and m_height
 		void draw(std::ostream& os)const; // display a rectangle that contained the label in format

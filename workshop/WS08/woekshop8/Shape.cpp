@@ -15,6 +15,9 @@ piece of work is entirely of my own creation.
 #include "Shape.h"
 using namespace std;
 namespace sdds {
+	Shape::~Shape() {
+		// no implementation
+	}
 
 	std::ostream& operator<<(std::ostream& os, const Shape& shape) {
 		shape.draw(os);

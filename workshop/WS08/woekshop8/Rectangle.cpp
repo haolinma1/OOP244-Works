@@ -12,6 +12,7 @@ shared with any other student or 3rd party content provider. This submitted
 piece of work is entirely of my own creation.
 /////////////////////////////////////////////////////////////////////////*/
 #include <iostream>
+#include <cstring>
 #include "Rectangle.h"
 using namespace std;
 namespace sdds {
@@ -20,10 +21,11 @@ namespace sdds {
 		m_height = 0;
 	}
 
-	Rectangle::Rectangle(const char* Cstring, int width, int height) : LblShape(Cstring) {
+	Rectangle::Rectangle(const char* Cstring, unsigned width, unsigned height) : LblShape(Cstring) {
 		m_width = width;
 		m_height = height;
-		if (m_height < 3 || m_width < strlen(label()) + 2)
+		unsigned two = 2;
+		if (m_height < 3 || m_width < strlen(label()) + two)
 		{
 			m_width = 0;
 			m_height = 0;
@@ -51,27 +53,27 @@ namespace sdds {
 		{	// first line
 			os << "+";
 			os.fill('-');
-			os.width(m_width - 2);
+			os.width(m_width - 1);
 			os << "+" << endl;
 			// second line
 			os << "|";
 			os.fill(' ');
-			os.width(m_width - 3);
+			os.width(m_width - 2);
 			os.setf(ios::left);
 			os << label();
 			os.unsetf(ios::left);
 			os << "|" << endl;
 			// in next (m_height - 3) lines
-			for (int i = 0; i < m_height - 3; i++)
+			for (unsigned i = 0; i < m_height - 3; i++)
 			{
 				os << "|";
-				os.width(m_width - 2);
+				os.width(m_width - 1);
 				os<<"|" << endl;
 			}
 			// last line
 			os << "+";
 			os.fill('-');
-			os.width(m_width - 2);
+			os.width(m_width - 1);
 			os << "+";
 		}
 	}

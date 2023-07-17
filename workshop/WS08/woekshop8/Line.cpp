@@ -19,7 +19,7 @@ namespace sdds {
 		m_length = 0;
 	}
 
-	Line::Line(const char* Cstring, int length) :LblShape(Cstring) {
+	Line::Line(const char* Cstring, unsigned length) :LblShape(Cstring) {
 		m_length = length;
 	}
 
@@ -41,7 +41,7 @@ namespace sdds {
 		if (m_length > 0 && label() != nullptr)
 		{
 			os << label() << endl;
-			for (int i = 0; i < m_length; i++)
+			for (unsigned i = 0; i < m_length; i++)
 			{
 				os << "=";
 			}

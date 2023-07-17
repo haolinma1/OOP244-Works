@@ -21,7 +21,7 @@ namespace sdds {
 	public:
 		virtual void draw(std::ostream& os)const = 0; // pure virtual member function 
 		virtual void getSpecs(std::istream& is) = 0; // pure virtual member function
-		virtual ~Shape() {}; // no implementation
+		virtual ~Shape(); // no implementation
 
 	};
 	std::ostream& operator<<(std::ostream& os, const Shape& shape); // helper function,overload the << operator, return a output and use draw function
