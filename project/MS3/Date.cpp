@@ -17,7 +17,7 @@
 using namespace std;
 namespace sdds {
 	bool sdds_test = false;
-	int sdds_year = 2021;
+	int sdds_year = 2023;
 	int sdds_mon = 12;
 	int sdds_day = 25;
 	
@@ -112,7 +112,7 @@ namespace sdds {
 		is >> m_mon;
 		is.ignore();
 		is >> m_day;
-		is.ignore();
+		// is.ignore();
 		if (is.fail())
 		{
 			m_ErrorCode = CIN_FAILED;

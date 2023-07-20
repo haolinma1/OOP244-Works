@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <string>
 #include <cstring>
 #include "Publication.h"
 #include "Lib.h"
@@ -87,16 +89,16 @@ namespace sdds {
 		{
 			os << type() << "\t" << m_libRef << "\t" << m_shelfId << "\t" << m_title << "\t" << m_membership << "\t" << m_date;
 		}
+		return os;
 	}
 
 	std::istream& Publication::read(std::istream& istr) {
 		string Cstring;
 		string title;
 		char ch = '0';
-		int count = 0;
 		delete[] m_title;
 		m_title = nullptr;
-		char shelfId[5]{};
+		char shelfId[SDDS_SHELF_ID_LEN+1]{};
 		int membership{ 0 };
 		int libRef{ -1 };
 		Date date;
@@ -107,27 +109,29 @@ namespace sdds {
 		if (conIO(istr))
 		{
 			cout << "Shelf No: ";
-			while ((ch = istr.get()) != '\n')
+			// left the new line in buffer
+			istr >> Cstring;
+			if (Cstring.length() == SDDS_SHELF_ID_LEN)
 			{
-				Cstring += ch;
-				count++;
-			}
-			if (count == SDDS_SHELF_ID_LEN)
-			{
-				strcpy(shelfId, Cstring.c_str());
+				 strcpy(shelfId, Cstring.c_str());
+				// discard the new line
+				 istr.ignore();
 			}
 			else
 			{
 				istr.setstate(ios::failbit);
 			}
 			cout << "Title: ";
-			while ((ch = istr.get()) != '\n')
-			{
-				title += ch;
+			if (!istr.fail())
+			{	// ensure that title can get the space
+				getline(istr, title);
 			}
 			cout << "Date: ";
-			istr >> date;
-			if (date.errCode() != 0)
+			if (!istr.fail())
+			{
+				istr >> date;
+			}			
+			if (!date)
 			{
 				istr.setstate(ios::failbit);
 			}
@@ -136,7 +140,7 @@ namespace sdds {
 		{
 			istr >> libRef;
 			istr.ignore('\t');
-			istr >> shelfId;
+			istr >> Cstring;
 			istr.ignore('\t');
 			while ((ch = istr.get()) != '\t') {
 				title += ch;

@@ -40,8 +40,6 @@ namespace sdds {
 		operator bool() const;
 		// Returns true if neither of the title or shelfId attributes is null or empty.
 		virtual ~Publication() {};
-		Publication(const Publication&) = delete; 
-		Publication& operator=(const Publication&) = delete;
-		// rule of three
+		
 	};
 }
