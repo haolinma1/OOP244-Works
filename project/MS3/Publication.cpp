@@ -1,14 +1,20 @@
-#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
 #include <string>
 #include <cstring>
 #include "Publication.h"
+#include "Utils.h"
 #include "Lib.h"
 using namespace std;
 namespace sdds {
 	Publication::Publication() {
 		// all the attribute have been created by default
 	}
+
+	/*Publication::~Publication() {
+		delete[] m_title;
+		m_title = nullptr;
+	}*/
 
 	void Publication::set(int member_id) {
 		m_membership = member_id;
@@ -24,7 +30,7 @@ namespace sdds {
 	}
 
 	char Publication::type()const {
-		return 'p';
+		return 'P';
 	}
 
 	bool Publication::onLoan()const {
@@ -40,7 +46,7 @@ namespace sdds {
 	}
 
 	bool Publication::operator==(const char* title)const {
-		if (strstr(m_title, title) == nullptr)
+		if (strStr(m_title, title) == nullptr)
 		{
 			return false;
 		}
@@ -66,8 +72,6 @@ namespace sdds {
 	std::ostream& Publication::write(std::ostream& os) const {
 		if (conIO(os))
 		{
-			//os << "         1         2         3         4         5         6         7"<<endl;
-			//os << "1234567890123456789012345678901234567890123456789012345678901234567890"<<endl;
 			os << "| " << m_shelfId << " | ";
 			os.setf(ios::left);
 			os.width(30);
@@ -83,7 +87,7 @@ namespace sdds {
 				os << " N/A  | ";
 			}
 			os << m_date;
-			os << " |" << endl;
+			os << " |";
 		}
 		else
 		{
@@ -113,7 +117,7 @@ namespace sdds {
 			istr >> Cstring;
 			if (Cstring.length() == SDDS_SHELF_ID_LEN)
 			{
-				 strcpy(shelfId, Cstring.c_str());
+				 strCpy(shelfId, Cstring.c_str());
 				// discard the new line
 				 istr.ignore();
 			}
@@ -139,14 +143,20 @@ namespace sdds {
 		else
 		{
 			istr >> libRef;
-			istr.ignore('\t');
+			istr.ignore();
 			istr >> Cstring;
-			istr.ignore('\t');
+			if (Cstring.length() == SDDS_SHELF_ID_LEN)
+			{
+				strCpy(shelfId, Cstring.c_str());
+			}
+			istr.ignore();
 			while ((ch = istr.get()) != '\t') {
 				title += ch;
 			}
+			istr >> membership;
+			istr.ignore();
 			istr >> date;
-			if (date.errCode() != 0)
+			if (!date)
 			{
 				istr.setstate(ios::failbit);
 			}
@@ -154,8 +164,8 @@ namespace sdds {
 		if (!istr.fail())
 		{
 			m_title = new char[title.length() + 1];
-			strcpy(m_title, title.c_str());
-			strcpy(m_shelfId, shelfId);
+			strCpy(m_title, title.c_str());
+			strCpy(m_shelfId, shelfId);
 			m_membership = membership;
 			m_date = date;
 			m_libRef = libRef;
