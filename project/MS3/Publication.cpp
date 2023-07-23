@@ -215,23 +215,26 @@ namespace sdds {
 	}
 
 	Publication& Publication::operator=(const Publication& publication) {
-		// shallow copy
-		strCpy(m_shelfId, publication.m_shelfId);
-		m_membership = publication.m_membership;
-		m_libRef = publication.m_libRef;
-		m_date = publication.m_date;
-		// deep copy
-		delete[] m_title;
-		m_title = nullptr;
-		if (publication.m_title != nullptr)
-		{
-			m_title = new char[strLen(publication.m_title) + 1];
-			strCpy(m_title, publication.m_title);
-		}
-		else
-		{
+		// check for self-assignment
+		if (this != &publication) {
+			// shallow copy
+			strCpy(m_shelfId, publication.m_shelfId);
+			m_membership = publication.m_membership;
+			m_libRef = publication.m_libRef;
+			m_date = publication.m_date;
+			// deep copy
+			delete[] m_title;
 			m_title = nullptr;
-		}
+			if (publication.m_title != nullptr)
+			{
+				m_title = new char[strLen(publication.m_title) + 1];
+				strCpy(m_title, publication.m_title);
+			}
+			else
+			{
+				m_title = nullptr;
+			}
+		}		
 		return *this;
 	}
 
