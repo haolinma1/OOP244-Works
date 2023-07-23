@@ -52,7 +52,11 @@ namespace sdds {
 		// read value from istr and store it in the variable attribute
 		operator bool() const;
 		// Returns true if neither of the title or shelfId attributes is null or empty.
+
+		// rule of three
 		virtual ~Publication();
+		Publication(const Publication& publication);
+		Publication& operator=(const Publication& publication);
 		
 	};
 }

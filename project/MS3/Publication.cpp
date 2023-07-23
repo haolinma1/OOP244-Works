@@ -24,8 +24,8 @@ namespace sdds {
 	}
 
 	Publication::~Publication() {
-		//delete[] m_title;
-		//m_title = nullptr;
+		delete[] m_title;
+		m_title = nullptr;
 	}
 
 	void Publication::set(int member_id) {
@@ -194,6 +194,45 @@ namespace sdds {
 		{
 			return false;
 		}
+	}
+
+	Publication::Publication(const Publication& publication) {
+		// shallow copy
+		strCpy(m_shelfId, publication.m_shelfId);
+		m_membership = publication.m_membership;
+		m_libRef = publication.m_libRef;
+		m_date = publication.m_date;
+		// deep copy
+		if (publication.m_title!=nullptr)
+		{
+			m_title = new char[strLen(publication.m_title) + 1];
+			strCpy(m_title, publication.m_title);
+		}
+		else
+		{
+			m_title = nullptr;
+		}
+	}
+
+	Publication& Publication::operator=(const Publication& publication) {
+		// shallow copy
+		strCpy(m_shelfId, publication.m_shelfId);
+		m_membership = publication.m_membership;
+		m_libRef = publication.m_libRef;
+		m_date = publication.m_date;
+		// deep copy
+		delete[] m_title;
+		m_title = nullptr;
+		if (publication.m_title != nullptr)
+		{
+			m_title = new char[strLen(publication.m_title) + 1];
+			strCpy(m_title, publication.m_title);
+		}
+		else
+		{
+			m_title = nullptr;
+		}
+		return *this;
 	}
 
 }
