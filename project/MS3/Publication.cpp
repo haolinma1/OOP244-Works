@@ -111,7 +111,6 @@ namespace sdds {
 	std::istream& Publication::read(std::istream& istr) {
 		string Cstring;
 		string title;
-		char ch = '0';
 		delete[] m_title;
 		m_title = nullptr;
 		char shelfId[SDDS_SHELF_ID_LEN+1]{};
@@ -162,9 +161,11 @@ namespace sdds {
 				strCpy(shelfId, Cstring.c_str());
 			}
 			istr.ignore();
-			while ((ch = istr.get()) != '\t') {
+			/*while ((ch = istr.get()) != '\t') {
 				title += ch;
-			}
+			}*/
+			getline(istr, title,'\t');
+			//istr.ignore();
 			istr >> membership;
 			istr.ignore();
 			istr >> date;
