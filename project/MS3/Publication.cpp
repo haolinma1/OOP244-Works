@@ -160,18 +160,21 @@ namespace sdds {
 			{
 				strCpy(shelfId, Cstring.c_str());
 			}
-			istr.ignore();
-			/*while ((ch = istr.get()) != '\t') {
-				title += ch;
-			}*/
-			getline(istr, title,'\t');
-			//istr.ignore();
-			istr >> membership;
-			istr.ignore();
-			istr >> date;
-			if (!date)
+			else
 			{
 				istr.setstate(ios::failbit);
+			}
+			if (!istr.fail())
+			{
+				istr.ignore();
+				getline(istr, title, '\t');
+				istr >> membership;
+				istr.ignore();
+				istr >> date;
+				if (!date)
+				{
+					istr.setstate(ios::failbit);
+				}
 			}
 		}
 		if (!istr.fail())
