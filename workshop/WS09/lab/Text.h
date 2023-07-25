@@ -34,7 +34,7 @@ namespace sdds {
       void read(); // store the content of file into m_content
       virtual void write(std::ostream& os)const; // output m_content into os
    };
-    std::ostream& operator<<(std::ostream&,const Text& text); // overload << to output Text object into os
+    std::ostream& operator<<(std::ostream& os,const Text& text); // overload << to output Text object into os
 }
 #endif // !SDDS_PERSON_H__
 

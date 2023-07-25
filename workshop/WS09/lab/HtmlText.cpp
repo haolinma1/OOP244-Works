@@ -21,7 +21,7 @@ namespace sdds {
 	}
 
 	HtmlText::HtmlText(const HtmlText& html) :Text(html) {
-		
+
 		if (html.m_title != nullptr)
 		{
 			m_title = new char[strLen(html.m_title) + 1];
@@ -55,6 +55,7 @@ namespace sdds {
 
 	void HtmlText::write(std::ostream& os)const {
 		bool MS = false;
+		int i = 0;
 		os << "<html><head><title>";
 		if (m_title != nullptr)
 		{
@@ -69,7 +70,7 @@ namespace sdds {
 		{
 			os << "<h1>" << m_title << "</h1>\n";
 		}
-		for (int i = 0; this->operator[](i) != '\0'; i++)
+		for (i = 0; this->operator[](i)!='\0'; i++)
 		{
 			switch (this->operator[](i))
 			{
@@ -98,6 +99,7 @@ namespace sdds {
 			default:
 				MS = false;
 				os << this->operator[](i);
+				break;
 			}
 
 		}

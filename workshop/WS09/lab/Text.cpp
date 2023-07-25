@@ -28,7 +28,7 @@ namespace sdds {
 
 	Text::Text(const char* filename) {
 		emptyState();
-		if (filename!=nullptr)
+		if (filename != nullptr)
 		{
 			m_filename = new char[strLen(filename) + 1];
 			strCpy(m_filename, filename);
@@ -44,11 +44,17 @@ namespace sdds {
 		m_content = nullptr;
 	}
 
+
 	const char& Text::operator[](int index)const {
+		const char& unDefine = '\0';
+		if (m_content == nullptr)
+		{
+			return unDefine;
+		}
 		if (index >= strLen(m_content) || index < 0)
 		{
 			// the behaviour is undefined
-			return '\0';
+			return unDefine;
 		}
 		else
 		{
@@ -59,7 +65,7 @@ namespace sdds {
 	Text::~Text() {
 		emptyState();
 	}
-	
+
 	void Text::init(const Text& text) {
 		if (text.m_filename != nullptr)
 		{
@@ -90,7 +96,7 @@ namespace sdds {
 
 	Text& Text::operator=(const Text& text) {
 		// check if self-copy
-		if (this!=&text)
+		if (this != &text)
 		{
 			// delete the memory
 			emptyState();
@@ -101,7 +107,7 @@ namespace sdds {
 
 	void Text::read() {
 		int fileSize = getFileLength();
-		if (fileSize>0)
+		if (fileSize > 0)
 		{
 			m_content = new char[fileSize + 1];
 			ifstream fin(m_filename);
@@ -114,15 +120,15 @@ namespace sdds {
 	}
 
 	void Text::write(std::ostream& os)const {
-		if (m_content!=nullptr)
+		if (m_content != nullptr)
 		{
 			os << m_content;
 		}
 	}
 
-	 std::ostream& operator<<(std::ostream& os, const Text& text) {
-		 text.write(os);
-		 return os;
+	std::ostream& operator<<(std::ostream& os, const Text& text) {
+		text.write(os);
+		return os;
 	}
 
 
