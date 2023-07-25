@@ -16,7 +16,7 @@ piece of work is entirely of my own creation.
 #include "Text.h"
 namespace sdds {
    class HtmlText :  public Text {
-       char* m_title{nullptr};
+       char* m_title{};
    public:
       HtmlText(const char* filename=nullptr, const char* title = nullptr); // constructor
       // rule of three

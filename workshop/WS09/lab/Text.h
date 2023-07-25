@@ -16,8 +16,9 @@ piece of work is entirely of my own creation.
 #include <iostream>
 namespace sdds {
    class Text {
-       char* m_filename{nullptr};
-      char* m_content{ nullptr };
+      char nulch{};
+      char* m_filename{};
+      char* m_content{ };
       int getFileLength()const; // it returns the length (size) of the text file on the disk. 
                                 // It returns zero if either the file does not exist or the content is empty.
       void emptyState(); // set this class to empty state

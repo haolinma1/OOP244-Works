@@ -27,7 +27,6 @@ namespace sdds {
 	}
 
 	Text::Text(const char* filename) {
-		emptyState();
 		if (filename != nullptr)
 		{
 			m_filename = new char[strLen(filename) + 1];
@@ -45,21 +44,29 @@ namespace sdds {
 	}
 
 
+	//const char& Text::operator[](int index)const {
+	//	const char& unDefine = '\0';
+	//	if (m_content == nullptr)
+	//	{
+	//		return unDefine;
+	//	}
+	//	if (index >= strLen(m_content) || index < 0)
+	//	{
+	//		// the behaviour is undefined
+	//		return unDefine;
+	//	}
+	//	else
+	//	{
+	//		return m_content[index];
+	//	}
+	//}
+
 	const char& Text::operator[](int index)const {
-		const char& unDefine = '\0';
-		if (m_content == nullptr)
-		{
-			return unDefine;
+		const char* ret = &nulch;
+		if(!(m_content == nullptr || index >= strLen(m_content) || index < 0)) {
+			ret =  &m_content[index];
 		}
-		if (index >= strLen(m_content) || index < 0)
-		{
-			// the behaviour is undefined
-			return unDefine;
-		}
-		else
-		{
-			return m_content[index];
-		}
+		return *ret;
 	}
 
 	Text::~Text() {
@@ -107,15 +114,17 @@ namespace sdds {
 
 	void Text::read() {
 		int fileSize = getFileLength();
+		int i = 0;
 		if (fileSize > 0)
 		{
 			m_content = new char[fileSize + 1];
 			ifstream fin(m_filename);
-			for (int i = 0; i < fileSize; i++)
+			for (; i < fileSize; i++)
 			{
 				m_content[i] = fin.get();
 			}
-			m_content[fileSize] = '\0';
+			m_content[i] = '\0';
+			if(i != fileSize) emptyState(); // fail if reading is incorrect
 		}
 	}
 
