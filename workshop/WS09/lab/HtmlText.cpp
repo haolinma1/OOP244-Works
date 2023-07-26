@@ -76,7 +76,7 @@ namespace sdds {
 			{
 			case ' ':
 				if (MS == true) {
-					os << "&nbsp";
+					os << "&nbsp;";
 				}
 				else
 				{

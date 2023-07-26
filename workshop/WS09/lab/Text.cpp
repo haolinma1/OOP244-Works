@@ -43,24 +43,6 @@ namespace sdds {
 		m_content = nullptr;
 	}
 
-
-	//const char& Text::operator[](int index)const {
-	//	const char& unDefine = '\0';
-	//	if (m_content == nullptr)
-	//	{
-	//		return unDefine;
-	//	}
-	//	if (index >= strLen(m_content) || index < 0)
-	//	{
-	//		// the behaviour is undefined
-	//		return unDefine;
-	//	}
-	//	else
-	//	{
-	//		return m_content[index];
-	//	}
-	//}
-
 	const char& Text::operator[](int index)const {
 		const char* ret = &nulch;
 		if(!(m_content == nullptr || index >= strLen(m_content) || index < 0)) {
