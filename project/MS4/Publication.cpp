@@ -1,10 +1,10 @@
 /*/////////////////////////////////////////////////////////////////////////
-						  Milestone3
+						  Milestone4
 Full Name  :Haolin Ma
 Student ID#:129979225
 Email      :mhaolin@myseneca.ca
 Section    :ZAA
-Date       :2023.07.22
+Date       :2023.07.27
 Authenticity Declaration:
 
 I declare this submission is the result of my own work and has not been
@@ -82,14 +82,24 @@ namespace sdds {
 	}
 
 	std::ostream& Publication::write(std::ostream& os) const {
+		char title[31]{};
 		if (conIO(os))
 		{
 			os << "| " << m_shelfId << " | ";
-			os.setf(ios::left);
-			os.width(30);
-			os.fill('.');
-			os << m_title;
-			os << " | ";
+			if (strLen(m_title) < 30)
+			{
+				os.setf(ios::left);
+				os.width(30);
+				os.fill('.');
+				os << m_title;
+				os << " | ";
+			}
+			else
+			{
+				strnCpy(title, m_title, 30);
+				os << title;
+				os << " | ";
+			}
 			if (onLoan())
 			{
 				os << m_membership << " | ";
