@@ -59,7 +59,7 @@ namespace sdds {
 	}
 
 	std::istream& Book::read(std::istream& istr) {
-		char authoName[257];
+		string authoName;
 		Publication::read(istr);
 		delete[] author;
 		author = nullptr;
@@ -67,17 +67,17 @@ namespace sdds {
 		{
 			istr.ignore();
 			cout << "Author: ";
-			istr.getline(authoName, 256);
+			getline(istr, authoName);
 		}
 		else
 		{
 			istr.ignore();
-			istr.getline(authoName, 256);
+			getline(istr, authoName);
 		}
 		if (!istr.fail())
 		{
-			author = new char[strLen(authoName) + 1];
-			strCpy(author, authoName);
+			author = new char[authoName.length() + 1];
+			strCpy(author, authoName.c_str());
 		}
 		return istr;
 	}
