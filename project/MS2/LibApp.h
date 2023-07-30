@@ -17,8 +17,8 @@ piece of work is entirely of my own creation.
 namespace sdds {
    class LibApp {
        bool m_changed;
-       Menu m_mainMenu;
-       Menu m_exitMenu;
+       Menu m_mainMenu{ "Seneca Library Application" };
+       Menu m_exitMenu{ "Changes have been made to the data, what would you like to do?" };
        bool confirm(const char* message); // Instantiate a Menu
        void load();  // prints: "Loading Data"<NEWLINE>
        void save();  // prints: "Saving Data"<NEWLINE>

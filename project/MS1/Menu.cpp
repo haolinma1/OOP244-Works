@@ -1,168 +1,59 @@
-/*/////////////////////////////////////////////////////////////////////////
-						  Milestone1
-Full Name  :Haolin Ma
-Student ID#:129979225
-Email      :mhaolin@myseneca.ca
-Section    :ZAA
-Date       :2023.07.06
-Authenticity Declaration:
+// MS-3 Contributors: Long Duc , Amir Mullagaliev 
+// Date: 2023/07/16
+#ifndef DATA_STRUCTURES_H
+#define DATA_STRUCTURES_H
 
-I declare this submission is the result of my own work and has not been
-shared with any other student or 3rd party content provider. This submitted
-piece of work is entirely of my own creation.
-/////////////////////////////////////////////////////////////////////////*/
+#define MAX_SIZE 36
+#define MAX_WEIGHT 1000
 
-#include <iostream>
-#include <cstring>
-#include "Menu.h"
-#include "Utils.h"
-using namespace std;
-namespace sdds {
-	MenuItem::MenuItem() {
-		item = nullptr;
-	}
+struct BoxWeight {
 
-	MenuItem::MenuItem(const char* content) {
-		item = nullptr;
-		item = new char[strLen(content) + 1];
-		strCpy(item, content);
-	}
+    int m_weight[1000];    // Weight of the box (in kg)
+};
 
-	MenuItem::~MenuItem() {
-		delete[] item;
-		item = nullptr;
-	}
+struct Location {
+    int m_row;       // row of the location (is an int)
+    char m_column;   // column of the location (is a char)
+};
 
-	MenuItem::operator bool()const {
-		if (item == nullptr)
-		{
-			return false;
-		}
-		return true;
-	}
+struct BoxSize {
+      
+    double Size[144]; // the box size for the truck
+     
+};
+struct Truck {
+    struct BoxWeight m_weight;         // Weight of the item (in kilograms)
+    struct BoxSize m_boxSize;    // Size of the box required for the item
+    struct Location m_destination;   // Destination location for the item
+    int numOfThingLoaded;
+};
 
-	MenuItem::operator const char* ()const {
-		return item;
-	}
+struct Route {
+    struct Truck trucks[3];
+};
 
-	std::ostream& MenuItem::display(std::ostream& os) {
-		if (!*this)
-		{
-			// do nothing
-		}
-		else
-		{
-			os << item;
-		}
-		return os;
-	}
-
-	// the functions for Menu class
-	Menu::Menu() {
-		numOfItem = 0;
-	}
-
-	Menu::Menu(const char* title) {
-		m_title.item = new char[strLen(title) + 1];
-		strCpy(m_title.item, title);
-		numOfItem = 0;
-	}
-
-	Menu::~Menu() {
-		delete[] m_title.item;
-		m_title.item = nullptr;
-		for (unsigned i = 0; i < numOfItem; i++)
-		{
-			menuItem[i]->~MenuItem();
-			delete this->menuItem[i];
-			menuItem[i] = nullptr;
-		}
-	}
-
-	std::ostream& Menu::displayTitle(std::ostream& os)const {
-		if (this->m_title)
-		{
-			os << this->m_title.item;
-		}
-		return os;
-	}
-
-	std::ostream& Menu::displayWholeMenu(std::ostream& os)const {
-		for (unsigned i = 0; i < numOfItem; i++)
-		{
-			os <<" "<< i + 1 << "- ";
-			menuItem[i]->display(os);
-			cout << endl;
-		}
-		os << " 0- Exit" << endl;
-		os << "> ";
-		return os;
-	}
-
-	unsigned Menu::run()const {
-		unsigned selection = 0;
-		displayTitle();
-		if (this->m_title)
-		{
-			cout << ":" << endl;
-		}
-		displayWholeMenu();
-		cin >> selection;
-		while (cin.fail() || selection > numOfItem)
-		{	// clear the buffer
-			cin.clear();
-			while (cin.get()!='\n')
-			{
-
-			}
-			cout << "Invalid Selection, try again: ";
-			cin >> selection;
-		}
-		return selection;
-	}
-
-	unsigned Menu::operator~()const {
-		return this->run();
-	}
-
-	Menu& Menu::operator<<(const char* menuitemConent) {
-		// check if the next spot is available
-		if (numOfItem < MAX_MENU_ITEMS)
-		{
-			this->menuItem[numOfItem] = new MenuItem(menuitemConent);
-			numOfItem++;
-
-		}
-		else
-		{
-			// do nothing
-		}
-		return *this;
-	}
-
-	Menu::operator bool()const {
-		if (numOfItem > 0)
-		{
-			return true;
-		}
-		return false;
-	}
-
-
-	Menu::operator unsigned int()const {
-		return numOfItem;
-	}
-
-	std::ostream& operator<<(std::ostream& cout,const Menu& menu) {
-		return menu.displayTitle(cout);
-	}
-
-	char* Menu::operator[](unsigned index)const {
-		if (index >= numOfItem)
-		{
-			return this->menuItem[index % numOfItem]->item;
-		}
-		return this->menuItem[index]->item;
-	}
-
-}
+// return the total size in this truck
+double getTotalSize(const struct Truck* truck);
+// initialize this truck to the default value, which is zero
+void iniTruck(struct Truck* truck);
+// load this truck by the cargo, which contain size and weight
+void loadTruck(struct Truck* truck, double size, int weight);
+// get the total weight of this truck
+int getTotalWeight(const struct Truck* truck);
+// decide weight or size exceed the limit for this truck
+// return 1 if the weight will exceed first
+// 0 if the size will exceed first
+int decideLimit(const struct Truck* truck);
+// set the destination for this truck to go
+void setDestinatioon(struct Location* destination, int row, char column);
+// validate if the passing destination is validate or not
+// return 0 if not validate
+// return 1 of validate
+int validateDestination(int row, char column);
+// decide which truck should be loaded by the cargo, based on their current state
+void decideTruck(const struct Route* route, double size, int weight);
+// validate if the truck can accept the cargo
+// return 0 if it cannot
+// return 1 if it can.
+int validateTruck(const Truck* truck, double size, int weight);
+#endif // DATA_STRUCTURES_H
