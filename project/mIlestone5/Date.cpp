@@ -1,4 +1,4 @@
-// Final Project Milestone 4
+// Final Project Milestone 5
 // Date Module
 // File	Date.cpp
 // Version 1.0
@@ -20,7 +20,7 @@ namespace sdds {
 	int sdds_year = 2023;
 	int sdds_mon = 12;
 	int sdds_day = 25;
-	
+
 	bool Date::validate() {
 		errCode(NO_ERROR);
 		if (m_year < MIN_YEAR || m_year > m_CUR_YEAR + 1) {
@@ -137,12 +137,14 @@ namespace sdds {
 		else
 		{
 			os << m_year << "/";
+			os.setf(ios::right);
 			os.width(2);
 			os.fill('0');
 			os << m_mon << "/";
 			os.width(2);
 			os << m_day;
 			os.fill();
+			os.unsetf(ios::right);
 		}
 		return os;
 	}

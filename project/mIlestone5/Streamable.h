@@ -1,10 +1,10 @@
 /*/////////////////////////////////////////////////////////////////////////
-						  Milestone4
+						  Milestone 5
 Full Name  :Haolin Ma
 Student ID#:129979225
 Email      :mhaolin@myseneca.ca
 Section    :ZAA
-Date       :2023.07.27
+Date       :2023.07.31
 Authenticity Declaration:
 
 I declare this submission is the result of my own work and has not been
@@ -18,9 +18,9 @@ namespace sdds {
 	public:
 		virtual std::ostream& write(std::ostream& os)const = 0; // pure virtual function
 		virtual std::istream& read(std::istream&) = 0; // pure virtual function
-		virtual bool conIO(std::ios& IOS)const=0; // this function will determine if the incoming ios object is a console IO object or not.
-		virtual operator bool() const=0; // return if the Streamable object true or not, pure virtual function
-		virtual ~Streamable() ; // virtual empty destructor
+		virtual bool conIO(std::ios& IOS)const = 0; // this function will determine if the incoming ios object is a console IO object or not.
+		virtual operator bool() const = 0; // return if the Streamable object true or not, pure virtual function
+		virtual ~Streamable(); // virtual empty destructor
 
 
 	};

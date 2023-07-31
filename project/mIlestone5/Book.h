@@ -1,10 +1,10 @@
 /*/////////////////////////////////////////////////////////////////////////
-						  Milestone4
+						  Milestone 5
 Full Name  :Haolin Ma
 Student ID#:129979225
 Email      :mhaolin@myseneca.ca
 Section    :ZAA
-Date       :2023.07.27
+Date       :2023.07.31
 Authenticity Declaration:
 
 I declare this submission is the result of my own work and has not been
@@ -15,7 +15,7 @@ piece of work is entirely of my own creation.
 
 namespace sdds {
 	class Book :public Publication {
-		char* author{nullptr};
+		char* author{ nullptr };
 	public:
 		Book();
 		// rule of three

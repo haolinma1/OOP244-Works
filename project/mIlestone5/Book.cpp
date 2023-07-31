@@ -1,10 +1,10 @@
 /*/////////////////////////////////////////////////////////////////////////
-						  Milestone4
+						  Milestone 5
 Full Name  :Haolin Ma
 Student ID#:129979225
 Email      :mhaolin@myseneca.ca
 Section    :ZAA
-Date       :2023.07.27
+Date       :2023.07.31
 Authenticity Declaration:
 
 I declare this submission is the result of my own work and has not been
@@ -20,14 +20,14 @@ piece of work is entirely of my own creation.
 using namespace std;
 namespace sdds {
 	Book::Book() {
-		
+
 	}
 	// rule of three
 	Book::~Book() {
 		delete[] author;
 		author = nullptr;
 	}
-	Book::Book(const Book& book):Publication(book) {
+	Book::Book(const Book& book) :Publication(book) {
 		if (book.author != nullptr)
 		{
 			author = new char[strLen(book.author) + 1];
@@ -61,9 +61,11 @@ namespace sdds {
 		{
 			os << " ";
 			strnCpy(authorName, author, SDDS_AUTHOR_WIDTH);
+			os.setf(ios::left);
 			os.width(15);
 			os.fill(' ');
 			os << authorName << " |";
+			os.unsetf(ios::left);
 		}
 		else
 		{

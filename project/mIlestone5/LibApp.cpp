@@ -1,10 +1,10 @@
 /*/////////////////////////////////////////////////////////////////////////
-						  Milestone2
+						  Milestone 5
 Full Name  :Haolin Ma
 Student ID#:129979225
 Email      :mhaolin@myseneca.ca
 Section    :ZAA
-Date       :2023.07.12
+Date       :2023.07.31
 Authenticity Declaration:
 
 I declare this submission is the result of my own work and has not been
@@ -13,10 +13,12 @@ piece of work is entirely of my own creation.
 /////////////////////////////////////////////////////////////////////////*/
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "LibApp.h"
 #include "Book.h"
 #include "PublicationSelector.h"
 #include "Utils.h"
+#include "Lib.h"
 
 using namespace std;
 namespace sdds {
@@ -61,7 +63,8 @@ namespace sdds {
 				}
 			}
 		}
-		LLRN = PPA[NOLP]->getRef();
+
+		LLRN = PPA[NOLP - 1]->getRef();
 	}
 
 	void LibApp::save() {
@@ -70,7 +73,7 @@ namespace sdds {
 		for (int i = 0; i < NOLP; i++)
 		{
 			if (PPA[i]->getRef() != 0) {
-				outfile << PPA[i];
+				outfile << *PPA[i] << endl;
 			}
 		}
 	}
@@ -82,7 +85,6 @@ namespace sdds {
 		char title[257]{};
 		char typeOf{};
 		char flag = false;
-		//cout << "Searching for publication" << endl;
 		selection = m_typeMenu.run();
 		while (selection == 0)
 		{
@@ -98,10 +100,11 @@ namespace sdds {
 			typeOf = 'P';
 		}
 		cout << "Publication Title: ";
-		cin >> title;
+		cin.ignore(1000, '\n');
+		cin.getline(title, 256);
 		for (int i = 0; i < NOLP; i++)
 		{
-			if (differentModes(modes,i,typeOf,title))
+			if (differentModes(modes, i, typeOf, title))
 			{
 				selector << PPA[i];
 				flag = true;
@@ -109,7 +112,7 @@ namespace sdds {
 		}
 		if (flag == false)
 		{
-			cout << "No matches found!";
+			cout << "No matches found!" << endl;
 		}
 		else
 		{
@@ -117,27 +120,50 @@ namespace sdds {
 			libRef = selector.run();
 			if (libRef == 0)
 			{
-				cout << "Aborted!";
+				cout << "Aborted!"<<endl;
 			}
 		}
 		return libRef;
 	}
 
-	bool LibApp::differentModes(int modes,int i,char typeOf, const char* title)const {
+	bool LibApp::differentModes(int modes, int i, char typeOf, const char* title)const {
 		bool selectMode = false;
-		if (modes==1)
+		if (modes == 1)
 		{	// all the publication
-			selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->operator==(title));
+			if (title[0]!='\0')
+			{
+				selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->operator==(title));
+			}
+			else
+			{
+				selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf);
+			}
 		}
-		else if (modes==2)
+		else if (modes == 2)
 		{
 			// only the publication that is on loan
-			selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->operator==(title) && PPA[i]->onLoan());
+			if (title[0] != '\0')
+			{
+				selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->operator==(title) && PPA[i]->onLoan());
+			}
+			else
+			{
+				selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->onLoan());
+			}
+			
 		}
 		else
 		{
 			// only available item
-			selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->operator==(title) && !PPA[i]->onLoan());
+			if (title[0] != '\0')
+			{
+				selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && PPA[i]->operator==(title) && !PPA[i]->onLoan());
+			}
+			else
+			{
+				selectMode = (PPA[i]->getRef() != 0 && PPA[i]->type() == typeOf && !PPA[i]->onLoan());
+			}
+			
 		}
 		return selectMode;
 	}
@@ -156,31 +182,41 @@ namespace sdds {
 
 	void LibApp::returnPub() {
 		Date currentDate;
-		cout << "Return publication to the library";
+		double penalty{};
+		cout << "Return publication to the library"<<endl;
 		int ref{};
 		int i{};
 		int delay{};
 		bool exit = false;
-		char type{};
 		ref = search(2);
 		for (; i < NOLP && exit == false; i++)
 		{
 			if (PPA[i]->getRef() == ref)
 			{
-				cout << PPA[i];
+				cout << *PPA[i] << endl;
 				exit = true;
-				type = PPA[i]->type();
 			}
 		}
-		if (type == 'P' && confirm("Return Publication?") == 1)
+		if (exit == true && confirm("Return Publication?") == 1)
 		{
-			delay = currentDate - PPA[i - 1]->checkoutDate();
-			if (delay >15) {
-				cout << "Please pay $" << double(delay * 0.5) << " penalty for being " << delay << " days late!"<<endl;
+			if (i == 0)
+			{
+				delay = currentDate - PPA[0]->checkoutDate();
+			}
+			else
+			{
+				delay = currentDate - PPA[i - 1]->checkoutDate();
+			}
+			if (delay > 15) {
+				penalty = (delay - 15) * 0.5;
+				cout.setf(ios::fixed);
+				cout.precision(2);
+				cout << "Please pay $" << penalty << " penalty for being " << (delay - 15) << " days late!" << endl;
+				cout.unsetf(ios::fixed);
 			}
 			PPA[i - 1]->set(0);
 			m_changed = true;
-			cout << "Publication returned";
+			cout << "Publication returned" << endl;
 		}
 
 	}
@@ -190,11 +226,11 @@ namespace sdds {
 		Publication* publication{};
 		if (NOLP == SDDS_LIBRARY_CAPACITY)
 		{
-			cout << "Library is at its maximum capacity!";
+			cout << "Library is at its maximum capacity!" << endl;
 		}
 		else
 		{
-			cout << "Adding new publication to the library";
+			cout << "Adding new publication to the library" << endl;
 			selection = m_typeMenu.run();
 			if (selection == 1)
 			{
@@ -204,33 +240,40 @@ namespace sdds {
 			{
 				publication = new Publication;
 			}
-			cin >> *publication;
-			if (cin.fail())
+			else if (selection == 0)
 			{
-				cin.ignore(1000, '\n');
-				cout << "Aborted";
+				cout << "Aborted!" << endl;
 			}
-			else
+			if (selection == 1 || selection == 2)
 			{
-				if (!confirm("Add this publication to the library?"))
+				cin >> *publication;
+				if (cin.fail())
 				{
-					cout << "Aborted!";
+					cin.ignore(1000, '\n');
+					cout << "Aborted";
 				}
 				else
 				{
-					if (publication)
+					if (!confirm("Add this publication to the library?"))
 					{
-						LLRN++;
-						publication->setRef(LLRN);
-						NOLP++;
-						PPA[NOLP] = publication;
-						m_changed = true;
-						cout << "Publication added";
+						cout << "Aborted!";
 					}
 					else
 					{
-						cout << "Failed to add publication!";
-						delete publication;
+						if (publication)
+						{
+							LLRN++;
+							publication->setRef(LLRN);
+							PPA[NOLP] = publication;
+							NOLP++;
+							m_changed = true;
+							cout << "Publication added" << endl;
+						}
+						else
+						{
+							cout << "Failed to add publication!";
+							delete publication;
+						}
 					}
 				}
 			}
@@ -240,23 +283,28 @@ namespace sdds {
 	void LibApp::removePublication() {
 		int i = 0;
 		int ref{};
-		char type{};
 		bool exit = false;
-		cout << "Removing publication from the library";
+		cout << "Removing publication from the library"<<endl;
 		ref = search(1);
 		for (; i < NOLP && exit == false; i++)
 		{
 			if (PPA[i]->getRef() == ref) {
-				cout << PPA[i];
-				type = PPA[i]->type();
+				cout << *PPA[i] << endl;
 				exit = true;
 			}
 		}
-		if (type == 'P' && confirm("Remove this publication from the library?") == 1)
+		if (exit == true && confirm("Remove this publication from the library?") == 1)
 		{
-			PPA[i - 1]->setRef(0);
+			if (i == 0)
+			{
+				PPA[i]->setRef(0);
+			}
+			else if (i > 0)
+			{
+				PPA[i - 1]->setRef(0);
+			}
 			m_changed = true;
-			cout << "Publication removed";
+			cout << "Publication removed" << endl;
 		}
 
 	}
@@ -264,31 +312,37 @@ namespace sdds {
 	void LibApp::checkOutPub() {
 		int i = 0;
 		int ref{};
-		char type{};
 		int membership{};
 		bool exit = false;
-		cout << "Checkout publication from the library";
+		cout << "Checkout publication from the library" << endl;
 		ref = search(3);
 		for (;i < NOLP && exit == false; i++)
 		{
 			if (PPA[i]->getRef() == ref)
 			{
-				cout << PPA[i];
-				type = PPA[i]->type();
+				cout << *PPA[i] << endl;
 				exit = true;
 			}
 		}
-		if (type == 'P' && confirm("Check out publication?") == 1)
+		if (exit == true && confirm("Check out publication?") == 1)
 		{
+			cout << "Enter Membership number: ";
 			cin >> membership;
 			while (membership < 10000 || membership>99999)
 			{
 				cout << "Invalid membership number, try again: ";
 				cin >> membership;
 			}
-			PPA[i - 1]->set(membership);
+			if (i == 0)
+			{
+				PPA[0]->set(membership);
+			}
+			else if (i > 0)
+			{
+				PPA[i - 1]->set(membership);
+			}
 			m_changed = true;
-			cout << "Publication checked out";
+			cout << "Publication checked out" << endl;
 		}
 	}
 

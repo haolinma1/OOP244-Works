@@ -1,10 +1,10 @@
 /*/////////////////////////////////////////////////////////////////////////
-						  Milestone4
+						  Milestone 5
 Full Name  :Haolin Ma
 Student ID#:129979225
 Email      :mhaolin@myseneca.ca
 Section    :ZAA
-Date       :2023.07.27
+Date       :2023.07.31
 Authenticity Declaration:
 
 I declare this submission is the result of my own work and has not been
@@ -123,7 +123,7 @@ namespace sdds {
 		string title;
 		delete[] m_title;
 		m_title = nullptr;
-		char shelfId[SDDS_SHELF_ID_LEN+1]{};
+		char shelfId[SDDS_SHELF_ID_LEN + 1]{};
 		int membership{ 0 };
 		int libRef{ -1 };
 		Date date;
@@ -138,9 +138,9 @@ namespace sdds {
 			istr >> Cstring;
 			if (Cstring.length() == SDDS_SHELF_ID_LEN)
 			{
-				 strCpy(shelfId, Cstring.c_str());
+				strCpy(shelfId, Cstring.c_str());
 				// discard the new line
-				 istr.ignore();
+				istr.ignore();
 			}
 			else
 			{
@@ -155,7 +155,7 @@ namespace sdds {
 			if (!istr.fail())
 			{
 				istr >> date;
-			}			
+			}
 			if (!date)
 			{
 				istr.setstate(ios::failbit);
@@ -217,7 +217,7 @@ namespace sdds {
 		m_libRef = publication.m_libRef;
 		m_date = publication.m_date;
 		// deep copy
-		if (publication.m_title!=nullptr)
+		if (publication.m_title != nullptr)
 		{
 			m_title = new char[strLen(publication.m_title) + 1];
 			strCpy(m_title, publication.m_title);
@@ -248,7 +248,7 @@ namespace sdds {
 			{
 				m_title = nullptr;
 			}
-		}		
+		}
 		return *this;
 	}
 
